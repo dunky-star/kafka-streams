@@ -17,7 +17,7 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
     restart: always
     volumes:
-      - "kafka_data:/bitnami"
+      - "kafka_data1:/bitnami"
     networks:
       - springbankNet
 
@@ -42,8 +42,8 @@ services:
       - springbankNet
 
 volumes:
-  kafka_data:
-    name: kafka_data
+  kafka_data1:
+    name: kafka_data1
     driver: local
   kafka_data2:
     name: kafka_data2
