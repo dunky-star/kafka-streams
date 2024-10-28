@@ -15,5 +15,19 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    restart: always
     volumes:
-      - D:/kafka/docker-compose/volumes/server-1:/bitnami/kafka
+      - "kafka_data:/bitnami"
+    networks:
+      - springbankNet
+
+volumes:
+  kafka_data:
+    name: kafka_data
+    driver: local
+
+networks:
+  springbankNet:
+    driver: bridge
+    name: springbankNet
+    external: true
