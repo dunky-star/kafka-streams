@@ -20,7 +20,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<String> createProduct(@RequestBody CreateProductRestModel product) {
-        String productId = productService.CreateProduct(product);
+        String productId = productService.createProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(productId);
     }
 }
