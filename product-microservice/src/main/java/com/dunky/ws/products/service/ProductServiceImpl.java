@@ -28,6 +28,6 @@ public class ProductServiceImpl implements ProductService {
 
         kafkaTemplate.send("product-created-events-topic", productId, productCreatedEvent);
 
-        return null;
+        return productId;
     }
 }
