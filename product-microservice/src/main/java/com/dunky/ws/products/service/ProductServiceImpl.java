@@ -1,14 +1,20 @@
 package com.dunky.ws.products.service;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import com.dunky.ws.products.entity.CreateProductRestModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate;
 
@@ -18,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String createProduct(CreateProductRestModel productRestModel) {
+
         String productId = UUID.randomUUID().toString();
 
         // TODO: Persist Product Details into database table before publishing an Event
@@ -26,8 +33,18 @@ public class ProductServiceImpl implements ProductService {
                 productRestModel.getTitle(), productRestModel.getPrice(),
                 productRestModel.getQuantity());
 
-        kafkaTemplate.send("product-created-events-topic", productId, productCreatedEvent);
+        CompletableFuture<SendResult<String, ProductCreatedEvent>> future =
+                kafkaTemplate.send("product-created-events-topic", productId, productCreatedEvent);
 
+        future.whenComplete((result, exception) -> {
+            if (exception != null) {
+                LOGGER.error("****** Failed to send message: " + exception.getMessage());
+            } else {
+                LOGGER.info("****** Message sent successfully: " + result.getRecordMetadata());
+            }
+        });
+        LOGGER.info("****** Returning product id");
+         // future.join() --> When you want to block the computation of the current Thread until when result is available.
         return productId;
     }
 }

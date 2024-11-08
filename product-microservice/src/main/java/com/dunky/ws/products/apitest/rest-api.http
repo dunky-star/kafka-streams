@@ -1,0 +1,9 @@
+### Send POST request with JSON body
+POST http://localhost:55914/api/v1/products
+Content-Type: application/json
+
+{
+  "title": "Samsung Galaxy S25 Ultra",
+  "price": 800,
+  "quantity": 20
+}
