@@ -60,7 +60,7 @@ public class KafkaConfig {
     KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate() {
         return new KafkaTemplate<String, ProductCreatedEvent>(producerFactory());
     }
-    
+
     @Bean
     NewTopic createTopic() {
         return TopicBuilder.name("product-created-events-topic")
