@@ -11,6 +11,7 @@
 	<groupId>com.dunky.ws</groupId>
 	<artifactId>email-notification-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>email-notification-service</name>
 	<description>Email Notification Microservice</description>
 	<url/>
