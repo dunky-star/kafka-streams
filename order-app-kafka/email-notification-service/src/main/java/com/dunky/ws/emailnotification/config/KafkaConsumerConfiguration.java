@@ -1,6 +1,7 @@
 package com.dunky.ws.emailnotification.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +10,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import java.util.Map;
 import java.util.HashMap;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
+
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 @Configuration
