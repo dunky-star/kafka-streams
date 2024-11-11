@@ -3,6 +3,7 @@ package com.dunky.ws.products.service;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import com.dunky.ws.core.ProductCreatedEvent;
 import com.dunky.ws.products.entity.CreateProductRestModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
