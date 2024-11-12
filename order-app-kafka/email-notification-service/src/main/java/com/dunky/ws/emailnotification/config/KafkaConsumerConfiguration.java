@@ -1,5 +1,6 @@
 package com.dunky.ws.emailnotification.config;
 
+import com.dunky.ws.emailnotification.exceptions.NotRetryableException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -19,6 +20,7 @@ import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.web.client.HttpServerErrorException;
 
 @Configuration
 public class KafkaConsumerConfiguration {
@@ -44,6 +46,9 @@ public class KafkaConsumerConfiguration {
             ConsumerFactory<String, Object> consumerFactory, KafkaTemplate<String, Object> kafkaTemplate) {
 
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate)); //DLT  (Dead Letter Topic)
+
+        errorHandler.addNotRetryableExceptions(NotRetryableException.class, HttpServerErrorException.class);
+
         ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         factory.setCommonErrorHandler(errorHandler);
