@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.dunky.ws.core.ProductCreatedEvent;
 import com.dunky.ws.products.entity.CreateProductRestModel;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -34,6 +35,15 @@ public class ProductServiceImpl implements ProductService {
                 productRestModel.getTitle(), productRestModel.getPrice(),
                 productRestModel.getQuantity());
 
+        // Producer record for Idempotency
+        ProducerRecord<String, ProductCreatedEvent> record = new ProducerRecord<>(
+                "product-created-events-topic",
+                productId,
+                productCreatedEvent
+        );
+        // Will be stored in the database to prevent processing duplicate message.
+        record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
+
         CompletableFuture<SendResult<String, ProductCreatedEvent>> future =
                 kafkaTemplate.send("product-created-events-topic", productId, productCreatedEvent);
 
@@ -44,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
                 LOGGER.info("****** Message sent successfully: " + result.getRecordMetadata());
             }
         });
+
         LOGGER.info("****** Returning product id");
          // future.join() --> When you want to block the computation of the current Thread until when result is available.
         return productId;

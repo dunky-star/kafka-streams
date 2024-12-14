@@ -73,5 +73,4 @@ public class KafkaConsumerConfiguration {
         return new DefaultKafkaProducerFactory<>(config);
     }
 
-
 }
