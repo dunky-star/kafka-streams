@@ -40,7 +40,8 @@ public class ProductCreatedEventHandler {
     public void handle(@Payload ProductCreatedEvent productCreatedEvent,
                        @Header(value = "messageId", required = true) String messageId,
                        @Header(KafkaHeaders.RECEIVED_KEY) String messageKey){
-        LOGGER.info("Received a new event: " +productCreatedEvent.getTitle());
+        LOGGER.info("Received a new event: " + productCreatedEvent.getTitle() + "with product id: "
+                +productCreatedEvent.getProductId() );
 
         // Check if this message was already processed before.
         ProcessedEventEntity existingRecord = processedEventRepository.findByMessageId(messageId);

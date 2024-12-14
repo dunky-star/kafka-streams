@@ -6,13 +6,13 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "processed-events")
+@Table(name = "processed_events")
 public class ProcessedEventEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 3687553269742697084L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(unique = true, nullable = false)

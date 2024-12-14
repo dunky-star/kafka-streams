@@ -2,6 +2,7 @@ package com.dunky.ws.products.service;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import com.dunky.ws.core.ProductCreatedEvent;
 import com.dunky.ws.products.entity.CreateProductRestModel;
@@ -25,7 +26,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String createProduct(CreateProductRestModel productRestModel) {
+    public String createProduct(CreateProductRestModel productRestModel) throws ExecutionException,
+            InterruptedException {
 
         String productId = UUID.randomUUID().toString();
 
@@ -35,6 +37,8 @@ public class ProductServiceImpl implements ProductService {
                 productRestModel.getTitle(), productRestModel.getPrice(),
                 productRestModel.getQuantity());
 
+        LOGGER.info("Before publishing a ProductCreatedEvent");
+
         // Producer record for Idempotency
         ProducerRecord<String, ProductCreatedEvent> record = new ProducerRecord<>(
                 "product-created-events-topic",
@@ -42,21 +46,17 @@ public class ProductServiceImpl implements ProductService {
                 productCreatedEvent
         );
         // Will be stored in the database to prevent processing duplicate message.
-        record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
+        record.headers().add("messageId", "123".getBytes());
 
-        CompletableFuture<SendResult<String, ProductCreatedEvent>> future =
-                kafkaTemplate.send("product-created-events-topic", productId, productCreatedEvent);
+        SendResult<String, ProductCreatedEvent> result =
+                kafkaTemplate.send(record).get();
 
-        future.whenComplete((result, exception) -> {
-            if (exception != null) {
-                LOGGER.error("****** Failed to send message: " + exception.getMessage());
-            } else {
-                LOGGER.info("****** Message sent successfully: " + result.getRecordMetadata());
-            }
-        });
+        LOGGER.info("Partition: " + result.getRecordMetadata().partition());
+        LOGGER.info("Topic: " + result.getRecordMetadata().topic());
+        LOGGER.info("Offset: " + result.getRecordMetadata().offset());
 
-        LOGGER.info("****** Returning product id");
-         // future.join() --> When you want to block the computation of the current Thread until when result is available.
+        LOGGER.info("***** Returning product id");
+
         return productId;
     }
 }
