@@ -12,8 +12,8 @@ public class ProcessedEventEntity implements Serializable {
     private static final long serialVersionUID = 3687553269742697084L;
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @Column(unique = true, nullable = false)
     private String messageId;
@@ -24,8 +24,7 @@ public class ProcessedEventEntity implements Serializable {
     public ProcessedEventEntity() {
     }
 
-    public ProcessedEventEntity(long id, String messageId, String productId) {
-        this.id = id;
+    public ProcessedEventEntity(String messageId, String productId) {
         this.messageId = messageId;
         this.productId = productId;
     }
