@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
                 productCreatedEvent
         );
         // Will be stored in the database to prevent processing duplicate message.
-        record.headers().add("messageId", "123".getBytes());
+        record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
 
         SendResult<String, ProductCreatedEvent> result =
                 kafkaTemplate.send(record).get();
