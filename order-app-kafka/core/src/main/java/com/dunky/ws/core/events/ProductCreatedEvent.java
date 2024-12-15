@@ -1,4 +1,4 @@
-package com.dunky.ws.core;
+package com.dunky.ws.core.events;
 
 import java.math.BigDecimal;
 

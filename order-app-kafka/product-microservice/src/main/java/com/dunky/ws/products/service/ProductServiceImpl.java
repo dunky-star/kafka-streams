@@ -1,10 +1,9 @@
 package com.dunky.ws.products.service;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import com.dunky.ws.core.ProductCreatedEvent;
+import com.dunky.ws.core.events.ProductCreatedEvent;
 import com.dunky.ws.products.entity.CreateProductRestModel;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -48,8 +47,7 @@ public class ProductServiceImpl implements ProductService {
         // Will be stored in the database to prevent processing duplicate message.
         record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
 
-        SendResult<String, ProductCreatedEvent> result =
-                kafkaTemplate.send(record).get();
+        SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send(record).get();
 
         LOGGER.info("Partition: " + result.getRecordMetadata().partition());
         LOGGER.info("Topic: " + result.getRecordMetadata().topic());

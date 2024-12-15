@@ -1,6 +1,6 @@
 package com.dunky.ws.emailnotification.handler;
 
-import com.dunky.ws.core.ProductCreatedEvent;
+import com.dunky.ws.core.events.ProductCreatedEvent;
 import com.dunky.ws.emailnotification.exceptions.NotRetryableException;
 import com.dunky.ws.emailnotification.exceptions.RetryableException;
 import com.dunky.ws.emailnotification.io.ProcessedEventEntity;

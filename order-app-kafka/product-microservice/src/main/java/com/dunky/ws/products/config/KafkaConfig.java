@@ -1,7 +1,7 @@
 package com.dunky.ws.products.config;
 
 
-import com.dunky.ws.core.ProductCreatedEvent;
+import com.dunky.ws.core.events.ProductCreatedEvent;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
