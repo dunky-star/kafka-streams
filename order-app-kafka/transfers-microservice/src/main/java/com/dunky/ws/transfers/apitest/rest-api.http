@@ -1,0 +1,9 @@
+### Send POST request with JSON body
+POST http://localhost:8083/api/v1/transfers
+Content-Type: application/json
+
+{
+  "senderId": "send-id-1000-99",
+  "recipientId": "recv-id-1000-44",
+  "amount": 2000
+}

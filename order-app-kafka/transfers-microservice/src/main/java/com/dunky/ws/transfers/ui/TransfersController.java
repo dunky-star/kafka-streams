@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-@RequestMapping("/transfers")
+@RequestMapping("/api/v1/transfers")
 public class TransfersController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private final TransferService transferService;
