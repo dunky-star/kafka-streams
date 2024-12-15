@@ -47,8 +47,6 @@ public class TransferServiceImpl implements TransferService {
 		DepositRequestedEvent depositEvent = new DepositRequestedEvent(transferRestModel.getSenderId(),
 				transferRestModel.getRecepientId(), transferRestModel.getAmount());
 
-
-
 		try {
 			saveTransferDetails(transferRestModel);
 
