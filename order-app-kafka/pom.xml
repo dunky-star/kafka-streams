@@ -8,6 +8,7 @@
 		<module>email-notification-service</module>
 		<module>mockservice</module>
 		<module>transfers-microservice</module>
+		<module>withdrawal-microservice</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
