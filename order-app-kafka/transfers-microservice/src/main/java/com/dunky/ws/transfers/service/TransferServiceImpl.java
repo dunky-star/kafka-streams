@@ -48,6 +48,11 @@ public class TransferServiceImpl implements TransferService {
 				transferRestModel.getRecepientId(), transferRestModel.getAmount());
 
 		try {
+
+			if (transferRestModel.getRecepientId() == null || transferRestModel.getRecepientId().isEmpty()) {
+				throw new IllegalArgumentException("RecepientId cannot be null or empty");
+			}
+
 			saveTransferDetails(transferRestModel);
 
 			kafkaTemplate.send(environment.getProperty("withdraw-money-topic", "withdraw-money-topic"),

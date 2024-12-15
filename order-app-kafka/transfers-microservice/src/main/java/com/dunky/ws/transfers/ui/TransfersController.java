@@ -1,5 +1,8 @@
 package com.dunky.ws.transfers.ui;
 
+import com.dunky.ws.transfers.io.TransferResponseDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dunky.ws.transfers.model.TransferRestModel;
@@ -21,8 +24,20 @@ public class TransfersController {
         this.transferService = transferService;
     }
 
+
     @PostMapping()
-    public boolean transfer(@RequestBody TransferRestModel transferRestModel) {
-        return transferService.transfer(transferRestModel);
+    public ResponseEntity<TransferResponseDTO> transfer(@RequestBody TransferRestModel transferRestModel) {
+        boolean isTransferred = transferService.transfer(transferRestModel);
+
+        TransferResponseDTO responseDTO;
+
+        if (isTransferred) {
+            responseDTO = new TransferResponseDTO("SUCCESS", "Transfer completed successfully.");
+            return ResponseEntity.ok(responseDTO); // HTTP 200 OK
+        } else {
+            responseDTO = new TransferResponseDTO("FAILURE", "Transfer failed due to an error.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO); // HTTP 500
+        }
     }
+
 }

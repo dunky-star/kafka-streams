@@ -26,5 +26,4 @@ public class TransferRestModel {
         this.recepientId = recepientId;
     }
 
-    
 }
