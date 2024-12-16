@@ -34,7 +34,6 @@ import org.springframework.test.context.ActiveProfiles;
 import com.dunky.ws.core.events.ProductCreatedEvent;
 import com.dunky.ws.products.entity.CreateProductRestModel;
 import com.dunky.ws.products.service.ProductService;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DirtiesContext
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
